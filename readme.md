@@ -1,5 +1,5 @@
-# Objetivo
-Com o auxilio do chat GPT, construiu-se uma API de cadastro de livros. Utilizamos Node.js, o framework mongoose para persistir dados no mongoDB, o framework express para desenvolver a API.
+# Objetivo 📚
+Com o auxilio do chat GPT, construiu-se uma API de cadastro de livros. Utilizando o Node.js e o framework mongoose para persistir dados no mongoDB, o framework express para desenvolver a API.
 
 Foi implementado o script de "start", que utiliza node.js para subir o arquivo principal do projeto de forma automática.
 
