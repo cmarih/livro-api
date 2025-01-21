@@ -33,30 +33,54 @@ Crie uma API RESTful em Node.js para um sistema de cadastro de livros. A API dev
 
 # Cypress
 
-Instalar o Cypress como dependência de desenvolvimento no mesmo diretório do código fonte do projeto: 
+- Instalar o Cypress como dependência de desenvolvimento no mesmo diretório do código fonte do projeto: 
 
-- **npm i cypress -D**
+```bash
+npm i cypress -D
+```
 
-Após a intalação, iniciar a interface do Cypress com o comando: 
+- Após a intalação, iniciar a interface do Cypress com o comando: 
 
-- **npx cypress open**
+```bash
+npx cypress open
+```
 
-- Instalação da biblioteca do npm, para exibir os resultados das requisições da API no front-end (navegador do electron), importante para etapa de implementação dos testes automatizados. do plugin Cypress pelo npm:[cypress-plugin-api](https://www.npmjs.com/package/cypress-plugin-api) 
+- Instalação da biblioteca do npm, para exibir os resultados das requisições da API no front-end (navegador do electron), importante para etapa de implementação dos testes automatizados. 
+- Plugin Cypress pelo npm:[cypress-plugin-api](https://www.npmjs.com/package/cypress-plugin-api) 
 
-Para instalar como uma dependência de desenvolvimento: **npm i cypress-plugin-api -D**
+- Para instalar como uma dependência de desenvolvimento: 
 
-Importe o plugin para seu *cypress/support/e2e.js*: **import 'cypress-plugin-api'**
+```bash
+npm i cypress-plugin-api -D
+```
 
-Instalação da biblioteca do MongoDB, para controle dos dados da API: [cypress-mongodb](https://www.npmjs.com/package/cypress-mongodb) 
+Importe o plugin para seu *cypress/support/e2e.js*: 
 
-Para instalar como uma dependência de desenvolvimento: **npm i cypress-mongodb -D**
+```bash
+import 'cypress-plugin-api' -D
+```
+
+
+- Instalação da biblioteca do **MongoDB**, para controle dos dados da API: [cypress-mongodb](https://www.npmjs.com/package/cypress-mongodb) 
+
+- Para instalar como uma dependência de desenvolvimento: 
+
+```bash
+npm i cypress-mongodb -D
+```
 
 Nesse projeto foi implementado uma função dropCollection para tratar as massas de dados (Excluir-las e evitar sujeira na base de dados).
 
 ## Subindo a API 🚀
 
-Clonar o repositório e instalar as dependências:  **npm install**
+- Clonar o repositório e instalar as dependências: 
+ ```bash
+npm install
+```
 
-Para executar a API execute: **npm start**
+- Para executar a API execute: 
+ ```bash
+npm start
+```
 
-Projeto feito assistindo as aulas do canal [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)
+*Projeto feito assistindo as aulas do canal [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)*
