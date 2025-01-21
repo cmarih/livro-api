@@ -1,8 +1,6 @@
 # Objetivo 📚
 Com o auxilio do chat GPT, construiu-se uma API de cadastro de livros. Utilizando o Node.js e o framework mongoose para persistir dados no mongoDB, o framework express para desenvolver a API.
 
-Foi implementado o script de "start", que utiliza node.js para subir o arquivo principal do projeto de forma automática.
-
 ## Pré-requisitos:
 
 - Node.js: preferencialmente na versão 20.x LTS, para garantir compatibilidade e suporte de longo prazo 
@@ -16,7 +14,7 @@ No diretório da raiz da API, precisa instalar/iniciar as dependências abaixo:
 
 - *npm install express mongoose*
 
-## Prompt
+## Prompt:
 
 Crie uma API RESTful em Node.js para um sistema de cadastro de livros. A API deve incluir as seguintes funcionalidades:
 
@@ -33,13 +31,17 @@ Crie uma API RESTful em Node.js para um sistema de cadastro de livros. A API dev
 - Inclua tratamento de erros e validações adequadas para todos os endpoints.
 - Adicione comentários no código para explicar as principais partes da implementação.
 
-## Cypress
+# Cypress
 
-Instalar o Cypress como dependência de desenvolvimento no mesmo diretório do código fonte do projeto: **npm i cypress -D**
+Instalar o Cypress como dependência de desenvolvimento no mesmo diretório do código fonte do projeto: 
 
-Após a intalação, iniciar a interface do Cypress com o comando: **npx cypress open**
+- **npm i cypress -D**
 
-Instalação da biblioteca do npm, para exibir os resultados das requisições da API no front-end (navegador do electron), imprtante para etapa de implementação dos testes automatizados. do plugin Cypress pelo npm:[cypress-plugin-api](https://www.npmjs.com/package/cypress-plugin-api) 
+Após a intalação, iniciar a interface do Cypress com o comando: 
+
+- **npx cypress open**
+
+- Instalação da biblioteca do npm, para exibir os resultados das requisições da API no front-end (navegador do electron), importante para etapa de implementação dos testes automatizados. do plugin Cypress pelo npm:[cypress-plugin-api](https://www.npmjs.com/package/cypress-plugin-api) 
 
 Para instalar como uma dependência de desenvolvimento: **npm i cypress-plugin-api -D**
 
