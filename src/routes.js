@@ -9,13 +9,15 @@ router.post('/livros', async (req, res) => {
 
         // Verificação se todos os campos foram preenchidos
         if (!titulo || !autor || !editora || !anoPublicacao || !numeroPaginas) {
-            return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+            return res.status(400)
+            .json({ erro: 'Todos os campos são obrigatórios' });
         }
 
         const duplicado = await Livro.findOne({titulo: titulo})
 
         if (duplicado) {
-            return res.status(409).json({erro: 'Titulo do livro já consta cadastro em  nossa base!'})
+            return res.status(409)
+            .json({erro: 'Titulo do livro já consta cadastro em  nossa base!'})
         }
 
 
@@ -23,7 +25,8 @@ router.post('/livros', async (req, res) => {
         await livro.save();
         res.status(201).json(livro);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao cadastrar livro' });
+        res.status(500)
+        .json({ error: 'Erro ao cadastrar livro' });
     }
 });
 
