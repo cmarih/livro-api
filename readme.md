@@ -85,7 +85,7 @@ npm start
 # Implementando o projeto 📚
 Para implementar o projeto, foi mapeado possíveis cenários de testes para serem automatizados.
 
-### Exemplos de cenários de testes que podem ser considerados para Automação:
+### No link abaixo é possível validar os cenários de testes foram considerados para Automação:
 [Evidências de testes automatizados](https://github.com/cmarih/livro-api/blob/master/testes-evidencias/testes.md)
 
 
