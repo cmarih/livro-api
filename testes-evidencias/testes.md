@@ -1,11 +1,13 @@
 # Exemplos de cenários de testes que podem ser considerados para Automação
 
 ## **Cenário 1 - BDD: Cadastro de livro com todos os campos válidos**
+```BDD
 Dado que eu tenho os dados válidos de um livro com título, autor, editora, ano de publicação e número de páginas 
 Quando eu envio uma requisição POST para o endpoint "/livros" 
 Então o sistema deve salvar o livro no banco de dados 
 E deve retornar o status 201 
 E deve retornar os detalhes do livro cadastrado no corpo da resposta 
+```
 - ### Comando costumizado:
 ```javascript
 Cypress.Commands.add('postLivro', (livro) => {
