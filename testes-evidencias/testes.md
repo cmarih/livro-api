@@ -1,6 +1,11 @@
 # Exemplos de cenários de testes que podem ser considerados para Automação
 
-## **Cenário 1: Cadastro de livro com todos os campos válidos**
+## **Cenário 1 - BDD: Cadastro de livro com todos os campos válidos**
+Dado que eu tenho os dados válidos de um livro com título, autor, editora, ano de publicação e número de páginas 
+Quando eu envio uma requisição POST para o endpoint "/livros" 
+Então o sistema deve salvar o livro no banco de dados 
+E deve retornar o status 201 
+E deve retornar os detalhes do livro cadastrado no corpo da resposta 
 - ### Comando costumizado:
 ```javascript
 Cypress.Commands.add('postLivro', (livro) => {
@@ -43,7 +48,7 @@ it.only('Cadastrar Novo Livro', () => {
 
 ```
 - ### Resultado:
-  <img src="testes-evidencias/cadastrar-livro.png" alt="Print teste cadastrar novo livro">
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/cadastrar-livro.png" alt="Print teste cadastrar novo livro">
 ## **Cenário 2: Tentativa de cadastro com campos ausentes - Teste Negativo**
 - ### Teste:
 ```javascript

@@ -82,5 +82,11 @@ npm install
  ```bash
 npm start
 ```
+# Implementando o projeto 📚
+Para implementar o projeto, foi mapeado possíveis cenários de testes para serem automatizados.
+
+### Exemplos de cenários de testes que podem ser considerados para Automação:
+[Evidências de testes automatizados](https://github.com/cmarih/livro-api/blob/master/testes-evidencias/testes.md)
+
 
 *Projeto feito assistindo as aulas do canal QA Papito:  [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)*
