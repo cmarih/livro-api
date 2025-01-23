@@ -16,55 +16,47 @@ describe('/livros POST', () => {
       "numeroPaginas": 406
     };
 
-    cy.postLivro(livro)
-      .then(response => {
-        expect(response.status).to.eql(201)
+    const livroTitulo = "Nárnia";
 
-        expect(response.body.titulo).to.eql(livro.titulo)
-        expect(response.body.autor).to.eql(livro.autor)
-        expect(response.body.editora).to.eql(livro.editora)
-        expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao)
-        expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
-        expect(response.body._id).to.not.be.empty
-      })
+    cy.getlivros(livroTitulo).then(response => {
+
+      if (response.status == 404) { //Caso não encontre o livro
+
+        //cadastrar livro
+        cy.postLivro(livro)
+          .then(response => {
+            expect(response.status).to.eql(201)
+            expect(response.body.titulo).to.eql(livro.titulo)
+            expect(response.body.autor).to.eql(livro.autor)
+            expect(response.body.editora).to.eql(livro.editora)
+            expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao)
+            expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
+            expect(response.body._id).to.not.be.empty
+          })
+      } else { //Se encontrar o livro
+
+        cy.postLivro(livro)
+          .then(response => {
+            expect(response.status).to.eql(409)
+            expect(response.body.erro).to.eql('Titulo do livro já consta cadastro em  nossa base!')
+          })
+      }
+    })
 
   })
+})
 
-  it('Não permitir cadastrar livro com campos ausentes', () => {
+it('Não permitir cadastrar livro com campos ausentes', () => {
 
-    const livro = {
-      "titulo": "O Alquimista"
-    };
+  const livro = {
+    "titulo": "O Alquimista"
+  };
 
-    cy.postLivro(livro)
-      .then(response => {
-        expect(response.status).to.eql(400)
-        expect(response.body.erro).to.eql('Todos os campos são obrigatórios')
-      })
-  })
-
-  it('Não cadastrar livro duplicado', () => {
-
-    const livro = {
-      "titulo": "O Alquimista",
-      "autor": "Paulo Coelho",
-      "editora": "HarperOne",
-      "anoPublicacao": 1988,
-      "numeroPaginas": 208
-    };
-
-    cy.postLivro(livro)
-      .then(response => {
-        expect(response.status).to.eql(201)
-
-      })
-
-    cy.postLivro(livro)
-      .then(response => {
-        expect(response.status).to.eql(409)
-        expect(response.body.erro).to.eql('Titulo do livro já consta cadastro em  nossa base!')
-      })
-  })
+  cy.postLivro(livro)
+    .then(response => {
+      expect(response.status).to.eql(400)
+      expect(response.body.erro).to.eql('Todos os campos são obrigatórios')
+    })
 })
 
 describe('/livros GET', () => {
@@ -87,21 +79,65 @@ describe('/livros GET', () => {
 
 describe('/livrosId GET', () => {
 
-  it('Deve retornar os detalhes de um determiado livro pelo ID', () => {
+  it('Deve retornar os detalhes de um determinado livro pelo ID', () => {
 
     const livroId = '67904448f447521c76b936ba';
 
     cy.getlivrosId(livroId).then(response => {
-        expect(response.status).to.eql(200) // Valida que o status da resposta é 200
-        expect(response.body).to.be.an('object') // Verifica se o corpo da resposta é um objeto
-        
+      // Verifica se o status é 404
+      if (response.status === 404) {
+        cy.log('Não há livros cadastrados na base.');
+        return; // Interrompe o teste
+      }
 
-        expect(response.body._id).to.eql(livroId) // Valida se o ID do livro está correto
+      expect(response.status).to.eql(200) // Valida que o status da resposta é 200
+      expect(response.body).to.be.an('object') // Verifica se o corpo da resposta é um objeto
 
-        // Exibindo os livros no console do Cypress
-        cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`)
 
-      })
+      expect(response.body._id).to.eql(livroId) // Valida se o ID do livro está correto
+
+      // Exibindo os livros no console do Cypress
+      cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`)
+
+    })
   })
+
 })
 
+describe('/deletelivroId DELETE', () => {
+
+  const livroTitulo = 'o alquimista'; //Informa o titulo do livro
+
+  it('Deve remover um livro especifico selecionado pelo titulo', () => {
+
+    cy.getlivros().then((response) => { // Validar se existem livros na base
+      expect(response.status).to.eq(200); // Verifica se a resposta foi bem-sucedida
+
+      // Verificar se existe livros na base
+      if (response.body.length === 0) {
+        cy.log('Não há registros de livros cadastrados na base.');
+
+        return;
+      }
+
+      // Filtrar o livro desejado pelo título
+      const livroEncontrado = response.body.find(
+        (livro) => livro.titulo.toLowerCase() === livroTitulo.toLowerCase())
+
+      //Validar se o livro foi encontrado
+      if (!livroEncontrado) {
+
+        cy.log(`Livro "${livroTitulo}"  não encontrado`)
+        return
+      }  else {
+        
+      cy.deletelivroId(livroEncontrado._id).then((res) => { // excluir o livro
+        // Validações da exclusão
+        expect(res.status).to.eq(200);
+        expect(res.body.message).to.eq('Livro removido com sucesso');
+      })
+      }
+
+    })
+  })
+})

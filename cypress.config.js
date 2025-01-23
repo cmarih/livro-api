@@ -10,10 +10,20 @@ module.exports = defineConfig({
         collection: 'livros'
     }
   },
+  reporter: 'mochawesome',
+  reporterOptions: {
+    reportDir: 'cypress/reports', // Diretório para salvar os relatórios
+    overwrite: false,             // Não sobrescreve relatórios existentes
+    html: true,                   // Gera relatórios em HTML
+    json: true,                   // Gera relatórios em JSON
+    charts: true,
+  },
+
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
       configurePlugin(on);
     },
+    baseUrl: 'http://localhost:5000/api/livros'
   },
 });

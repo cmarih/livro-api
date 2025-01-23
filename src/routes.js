@@ -34,6 +34,11 @@ router.post('/livros', async (req, res) => {
 router.get('/livros', async (req, res) => {
     try {
         const livros = await Livro.find();
+
+        if (!livros || livros.length === 0) {
+            return res.status(200).json([]); // Retorna uma lista vazia se não houver livros
+        }
+
         res.json(livros);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao listar livros' });
@@ -62,8 +67,7 @@ router.delete('/livros/:id', async (req, res) => {
 
         if (!livro) {
             return res.status(404).json({ error: 'Livro não encontrado' });
-        }
-
+        } 
         res.json({ message: 'Livro removido com sucesso' });
     } catch (error) {
         res.status(500).json({ error: 'Erro ao deletar livro' });

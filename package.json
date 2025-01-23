@@ -4,9 +4,15 @@
   "description": "Desenvolver uma API RESTful com Node.js e Express, integrando o MongoDB como banco de dados, e automatizando todo o processo de teste de ponta a ponta com o Cypress.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/app.js",
-    "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/app.js", 
+    "start": "node src/app.js", 
+    "cypress:open": "cypress open", 
+    "cypress:run": "cypress run",
+    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json", 
+    "report:generate": "marge cypress/reports/merged-report.json -f final-report -o cypress/reports", 
+    "test": "npm run cypress:run && npm run report:merge && npm run report:generate", 
+    "test:report": "npm run report:merge && npm run report:generate",
+    "test:debug": "cypress run --browser chrome --headed" 
   },
   "keywords": [],
   "author": "",
@@ -19,6 +25,9 @@
     "cypress": "^13.17.0",
     "cypress-mongodb": "^6.2.1",
     "cypress-plugin-api": "^2.11.2",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
     "nodemon": "^3.1.9"
   }
 }

@@ -55,3 +55,15 @@ Cypress.Commands.add('getlivrosId', (id) => {
         return response
     })
 })
+
+Cypress.Commands.add('deletelivroId', (id) => {
+    cy.request({
+      method: 'DELETE',
+      url: `http://localhost:5000/api/livros/${id}`,
+      failOnStatusCode: false // Permite capturar respostas com status >= 400
+    }).then((response) => {
+
+      return response
+
+    })
+  })
