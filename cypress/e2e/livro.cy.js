@@ -6,8 +6,6 @@ describe('/livros POST', () => {
     });
   })*/
 
-
-
   it('Cadastrar Novo Livro', () => {
 
     const livro = {

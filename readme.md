@@ -85,8 +85,32 @@ npm start
 # Implementando o projeto 📚
 Para implementar o projeto, foi mapeado possíveis cenários de testes para serem automatizados.
 
-### No link abaixo é possível validar os cenários de testes foram considerados para Automação:
-[Evidências de testes automatizados](https://github.com/cmarih/livro-api/blob/master/testes-evidencias/testes.md)
+## **Cenário 1: Cadastro de livro com todos os campos válidos**
+- ### Resultado:
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/cadastrar-livro.png" alt="Print teste cadastrar novo livro">
 
+## **Cenário 2: Tentativa de cadastro com campos ausentes - Teste Negativo**
+- ### Resultado:
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/campo-obrigatorio.png" alt="Print teste cadastrar sem campo obrigatorio">
+
+## **Cenário 3: Tentativa de cadastro com campos duplicados - Teste Negativo**
+- ### Resultado:
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/livro-duplicado.png" alt="Print teste cadastrar livro existente na base">
+
+## **Cenário 4: Listar todos os livros cadastrados**
+- ### Resultado:
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/todos-livros.png" alt="Print teste consulta lista de livros cadastrados">
+
+## **Cenário 5: Consultar um livro existente pelo ID**
+- ### Resultado:
+  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/livro_id.png" alt="Print teste consulta por Id do livro">
+
+## **Cenário 6: Remover um livro existente pelo ID**
+
+REMOVER PRINTS DE TELA E TRABALHAR EM CIMA DE RELATÓRIOS GERADOS PELO CYPRESS, COMO EVIDENCIA DE TESTE
+- Implementar:
+Cenário de exclusão de livros
+gerar a massa de dados de forma automática
+POSSIBILIDADE DE UTILIZAÇÃO DO METODO PUT/ATUALIZAÇÃO NA API
 
 *Projeto feito assistindo as aulas do canal QA Papito:  [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)*
