@@ -1,6 +1,6 @@
 describe('/livros POST', () => {
 
-  it.only('Cadastrar Novo Livro', () => {
+  it('Cadastrar Novo Livro', () => {
 
     const livro = {
       "titulo": "Nánia",
@@ -104,7 +104,7 @@ describe('/livrosId GET', () => {
 
   it('Deve retornar os detalhes de um determinado livro pelo ID', () => {
 
-    const livroId = '67904448f447521c76b936ba';
+    const livroId = '6792f922d2f1d494e4dc7c5e';
 
     cy.getlivrosId(livroId).then(response => {
       // Verifica se o status é 404
@@ -134,12 +134,13 @@ describe('/livrosId GET', () => {
 
 describe('/deletelivroId DELETE', () => {
 
-  const livroTitulo = "A Revolução dos Bichos" //Informa o titulo do livro
-
+  
   it('Deve remover um livro especifico selecionado pelo titulo', () => {
 
     cy.getlivros().then((response) => { // Validar se existem livros na base
       expect(response.status).to.eq(200); // Verifica se a resposta foi bem-sucedida
+
+      const livroTitulo = "Nánia" //Informa o titulo do livro
 
       // Verificar se existe livros na base
       if (response.body.length === 0) {
@@ -152,7 +153,8 @@ describe('/deletelivroId DELETE', () => {
       
       // Filtrar o livro desejado pelo título
       const livroEncontrado = response.body.find(
-        (livro) => livro.titulo?.toLowerCase().trim() === livroTitulo.toLowerCase().trim())
+        (livro) => livro.titulo?.toLowerCase().trim().includes(livroTitulo.toLowerCase().trim())
+      )
 
       //Validar se o livro foi encontrado
       if (!livroEncontrado) {
@@ -161,7 +163,6 @@ describe('/deletelivroId DELETE', () => {
 
         cy.screenshot('Titulo-livro-nao-encontrado')
 
-        return
       }  else {
         
       cy.deletelivroId(livroEncontrado._id).then((res) => { // excluir o livro
