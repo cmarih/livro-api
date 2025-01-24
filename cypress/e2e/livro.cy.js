@@ -1,26 +1,19 @@
 describe('/livros POST', () => {
 
-  /*before(() => {
-    cy.dropCollection('livros', { database: 'test', failSilently: 'true' }).then(result => {
-      cy.log(result); // Will return 'Collection dropped' or the error object if collection doesn’t exist. Will not fail the test
-    });
-  })*/
-
-  it('Cadastrar Novo Livro', () => {
+  it.only('Cadastrar Novo Livro', () => {
 
     const livro = {
-      "titulo": "Nárnia 1",
-      "autor": "Nanda Gonçalves",
-      "editora": "Martin Claret",
-      "anoPublicacao": 1347,
-      "numeroPaginas": 406
+      "titulo": "Nánia",
+      "autor": "Paulo Coelho",
+      "editora": "HarperOne",
+      "anoPublicacao": 1988,
+      "numeroPaginas": 208
     };
 
-    const livroTitulo = "Nárnia";
 
-    cy.getlivros(livroTitulo).then(response => {
+    cy.getlivros().then((response) => {
 
-      if (response.status == 404) { //Caso não encontre o livro
+      if (response.status == 404 || response.body.length === 0) { //Caso não encontre o livro
 
         //cadastrar livro
         cy.postLivro(livro)
@@ -33,16 +26,43 @@ describe('/livros POST', () => {
             expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
             expect(response.body._id).to.not.be.empty
           })
-      } else { //Se encontrar o livro
 
-        cy.postLivro(livro)
-          .then(response => {
+          cy.screenshot('Cadastrar-novo-livro')
+          
+      } else {
+        //Verificar se o livro já consta na base
+        const livroEncontrado = response.body.find(
+          (livroExistente) => livroExistente.titulo.toLowerCase() === livro.titulo.toLowerCase()
+        )
+
+        if (livroEncontrado){
+          //Se o livro tiver cadastro, informa mensagem de duplicidade
+          cy.postLivro(livro).then((response) => {
             expect(response.status).to.eql(409)
             expect(response.body.erro).to.eql('Titulo do livro já consta cadastro em  nossa base!')
           })
-      }
-    })
+          cy.screenshot('Livro-duplicado')
+        } else {
+          //cadastrar livro
+        cy.postLivro(livro)
+        .then(response => {
+          expect(response.status).to.eql(201)
+          expect(response.body.titulo).to.eql(livro.titulo)
+          expect(response.body.autor).to.eql(livro.autor)
+          expect(response.body.editora).to.eql(livro.editora)
+          expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao)
+          expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
+          expect(response.body._id).to.not.be.empty
+        })
 
+        cy.screenshot('Cadastrar-novo-livro')
+        }
+      }
+      
+    })
+      
+
+          
   })
 })
 
@@ -57,6 +77,8 @@ it('Não permitir cadastrar livro com campos ausentes', () => {
       expect(response.status).to.eql(400)
       expect(response.body.erro).to.eql('Todos os campos são obrigatórios')
     })
+
+    cy.screenshot('Campos-obrigatorios-ausentes')
 })
 
 describe('/livros GET', () => {
@@ -73,6 +95,7 @@ describe('/livros GET', () => {
           cy.log(`Livro ${index + 1}: ${JSON.stringify(livro)}`);
         })
 
+        cy.screenshot('Listar-livros-cadastrados')
       })
   })
 })
@@ -87,6 +110,9 @@ describe('/livrosId GET', () => {
       // Verifica se o status é 404
       if (response.status === 404) {
         cy.log('Não há livros cadastrados na base.');
+
+        cy.screenshot('Livro-sem-cadastro')
+
         return; // Interrompe o teste
       }
 
@@ -99,6 +125,8 @@ describe('/livrosId GET', () => {
       // Exibindo os livros no console do Cypress
       cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`)
 
+      cy.screenshot('Livro-busca-id')
+
     })
   })
 
@@ -106,7 +134,7 @@ describe('/livrosId GET', () => {
 
 describe('/deletelivroId DELETE', () => {
 
-  const livroTitulo = 'o alquimista'; //Informa o titulo do livro
+  const livroTitulo = "A Revolução dos Bichos" //Informa o titulo do livro
 
   it('Deve remover um livro especifico selecionado pelo titulo', () => {
 
@@ -117,17 +145,22 @@ describe('/deletelivroId DELETE', () => {
       if (response.body.length === 0) {
         cy.log('Não há registros de livros cadastrados na base.');
 
+        cy.screenshot('Sem-livro-cadastrado')
+
         return;
       }
-
+      
       // Filtrar o livro desejado pelo título
       const livroEncontrado = response.body.find(
-        (livro) => livro.titulo.toLowerCase() === livroTitulo.toLowerCase())
+        (livro) => livro.titulo?.toLowerCase().trim() === livroTitulo.toLowerCase().trim())
 
       //Validar se o livro foi encontrado
       if (!livroEncontrado) {
 
-        cy.log(`Livro "${livroTitulo}"  não encontrado`)
+        cy.log(`Livro "${livroTitulo}" não encontrado`)
+
+        cy.screenshot('Titulo-livro-nao-encontrado')
+
         return
       }  else {
         
@@ -136,6 +169,7 @@ describe('/deletelivroId DELETE', () => {
         expect(res.status).to.eq(200);
         expect(res.body.message).to.eq('Livro removido com sucesso');
       })
+        cy.screenshot('Livro-removido')
       }
 
     })
