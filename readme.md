@@ -120,8 +120,13 @@ Para implementar o projeto, foi mapeado possíveis cenários de testes para sere
 - Deve retornar uma mensagem indicando que o livro foi removido com sucesso. 
 - Deve retornar uma mensagem indicando, caso o livro não seja encontrado.
 
-### ** [Relatório de teste:]()**
+**[Relatório de teste HTML:](https://github.com/cmarih/livro-api/blob/master/cypress/reports/Resultado%20teste.html)**
 
-gerar a massa de dados de forma automática - Verificar
+**[Relatório de teste JSON:](https://github.com/cmarih/livro-api/blob/master/cypress/reports/Resultado%20teste.json)**
+
+
+### Proximo desafio: 
+
+- Gerar a massa de dados de forma automática - Verificar
 
 *Projeto feito assistindo as aulas do canal QA Papito:  [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)*
