@@ -1,0 +1,244 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-01-24T15:46:24.034Z",
+    "end": "2025-01-24T15:46:26.061Z",
+    "duration": 2027,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2058e631-df44-4f96-a7ed-fd1c4e2834b7",
+      "title": "",
+      "fullFile": "cypress\\e2e\\livro.cy.js",
+      "file": "cypress\\e2e\\livro.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [
+        {
+          "title": "Não permitir cadastrar livro com campos ausentes",
+          "fullTitle": "Não permitir cadastrar livro com campos ausentes",
+          "timedOut": null,
+          "duration": 452,
+          "state": "passed",
+          "speed": "fast",
+          "pass": true,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "const livro = {\n  \"titulo\": \"O Alquimista\"\n};\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp\ncy.postLivro(livro).then(response => {\n  expect(response.status).to.eql(400);\n  expect(response.body.erro).to.eql('Todos os campos são obrigatórios');\n});\ncy.screenshot(`Cadastro/Campos-obrigatorios-ausentes-${timestamp}`);",
+          "err": {},
+          "uuid": "dcb1beeb-838f-4ef5-bc91-10c424f687d8",
+          "parentUUID": "2058e631-df44-4f96-a7ed-fd1c4e2834b7",
+          "isHook": false,
+          "skipped": false
+        }
+      ],
+      "suites": [
+        {
+          "uuid": "ffb6fc44-f6c9-4958-a125-579d032fa3d5",
+          "title": "/livros POST",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Cadastrar Novo Livro",
+              "fullTitle": "/livros POST Cadastrar Novo Livro",
+              "timedOut": null,
+              "duration": 417,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const livro = {\n  \"titulo\": \"Lara Cross\",\n  \"autor\": \"Paulo Co233elho\",\n  \"editora\": \"Harper23423One\",\n  \"anoPublicacao\": 3488,\n  \"numeroPaginas\": 238\n};\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp\ncy.getlivros().then(response => {\n  if (response.status == 404 || response.body.length === 0) {\n    //Caso não encontre o livro\n    //cadastrar livro\n    cy.postLivro(livro).then(response => {\n      expect(response.status).to.eql(201);\n      expect(response.body.titulo).to.eql(livro.titulo);\n      expect(response.body.autor).to.eql(livro.autor);\n      expect(response.body.editora).to.eql(livro.editora);\n      expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao);\n      expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas);\n      expect(response.body._id).to.not.be.empty;\n    });\n    cy.screenshot(`Cadastro/Cadastrar-novo-livro-${timestamp}+1`);\n  } else {\n    //Verificar se o livro já consta na base\n    const livroEncontrado = response.body.find(livroExistente => livroExistente.titulo.toLowerCase() === livro.titulo.toLowerCase());\n    if (livroEncontrado) {\n      //Se o livro tiver cadastro, informa mensagem de duplicidade\n      cy.postLivro(livro).then(response => {\n        expect(response.status).to.eql(409);\n        expect(response.body.erro).to.eql('Titulo do livro já consta cadastro em  nossa base!');\n      });\n      cy.screenshot(`Cadastro/Livro-duplicado-${timestamp}`);\n    } else {\n      //cadastrar livro\n      cy.postLivro(livro).then(response => {\n        expect(response.status).to.eql(201);\n        expect(response.body.titulo).to.eql(livro.titulo);\n        expect(response.body.autor).to.eql(livro.autor);\n        expect(response.body.editora).to.eql(livro.editora);\n        expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao);\n        expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas);\n        expect(response.body._id).to.not.be.empty;\n      });\n      cy.screenshot(`Cadastro/Cadastrar-novo-livro-${timestamp}`);\n    }\n  }\n});",
+              "err": {},
+              "uuid": "f20d18c8-d80e-481b-86ea-89d2cf3d109e",
+              "parentUUID": "ffb6fc44-f6c9-4958-a125-579d032fa3d5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f20d18c8-d80e-481b-86ea-89d2cf3d109e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 417,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "3b9a1f5c-02ba-4bed-8528-66abbf28a054",
+          "title": "/livros GET",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "deve listar todos os livros cadastrados",
+              "fullTitle": "/livros GET deve listar todos os livros cadastrados",
+              "timedOut": null,
+              "duration": 356,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp\ncy.getlivros().then(response => {\n  expect(response.status).to.eql(200);\n  expect(response.body).to.be.an('array');\n  // Exibindo os livros no console do Cypress\n  response.body.forEach((livro, index) => {\n    console.log(`Livro ${index + 1}:`, livro);\n    cy.log(`Livro ${index + 1}: ${JSON.stringify(livro)}`);\n  });\n  cy.screenshot(`consulta/Listar-livros-cadastrados-${timestamp}`);\n});",
+              "err": {},
+              "uuid": "67d590dc-c53a-4af6-b34d-ddc1284dbec1",
+              "parentUUID": "3b9a1f5c-02ba-4bed-8528-66abbf28a054",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "67d590dc-c53a-4af6-b34d-ddc1284dbec1"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 356,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "a16ba810-ecd6-4193-a58b-2957a30fbb4e",
+          "title": "/livrosId GET",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Deve retornar os detalhes de um determinado livro pelo ID",
+              "fullTitle": "/livrosId GET Deve retornar os detalhes de um determinado livro pelo ID",
+              "timedOut": null,
+              "duration": 280,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const livroId = \"6793b23e6ef3608664c203cb\";\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp\ncy.getlivrosId(livroId).then(response => {\n  // Verifica se o status é 404\n  if (response.status === 404 || response.body.length === 0) {\n    cy.log('Não há livros cadastrados na base.');\n    cy.screenshot(`Consulta/Livro-sem-cadastro-${timestamp}`);\n    //return; // Interrompe o teste\n  } else {\n    expect(response.status).to.eql(200); // Valida que o status da resposta é 200\n    expect(response.body).to.be.an('object'); // Verifica se o corpo da resposta é um objeto\n    expect(response.body._id).to.eql(livroId); // Valida se o ID do livro está correto\n    // Exibindo os livros no console do Cypress\n    cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`);\n    cy.screenshot(`Consulta/Livro-busca-id-${timestamp}`);\n  }\n});",
+              "err": {},
+              "uuid": "358070c6-502a-43a9-b6aa-4573f59b3bf0",
+              "parentUUID": "a16ba810-ecd6-4193-a58b-2957a30fbb4e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "358070c6-502a-43a9-b6aa-4573f59b3bf0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 280,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "3cad8e5f-cdba-43cb-8791-902ee443aa49",
+          "title": "/deletelivroId DELETE",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Deve remover um livro especifico selecionado pelo titulo",
+              "fullTitle": "/deletelivroId DELETE Deve remover um livro especifico selecionado pelo titulo",
+              "timedOut": null,
+              "duration": 284,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp\ncy.getlivros().then(response => {\n  // Validar se existem livros na base\n  expect(response.status).to.eq(200); // Verifica se a resposta foi bem-sucedida\n  const livroTitulo = \"Lara Cross\"; //Informa o titulo do livro\n  // Verificar se existe livros na base\n  if (response.body.length === 0) {\n    cy.log('Não há registros de livros cadastrados na base.');\n    cy.screenshot(`Exclusão/Sem-livro-cadastrado-${timestamp}`);\n    return;\n  }\n  // Filtrar o livro desejado pelo título\n  const livroEncontrado = response.body.find(livro => {\n    var _livro$titulo;\n    return (_livro$titulo = livro.titulo) === null || _livro$titulo === void 0 ? void 0 : _livro$titulo.toLowerCase().trim().includes(livroTitulo.toLowerCase().trim());\n  });\n  //Validar se o livro foi encontrado\n  if (!livroEncontrado) {\n    cy.log(`Livro \"${livroTitulo}\" não encontrado`);\n    cy.screenshot(`Exclusão/Titulo-livro-nao-encontrado-${timestamp}`);\n  } else {\n    cy.deletelivroId(livroEncontrado._id).then(res => {\n      // excluir o livro\n      // Validações da exclusão\n      expect(res.status).to.eq(200);\n      expect(res.body.message).to.eq('Livro removido com sucesso');\n    });\n    cy.screenshot(`Exclusão/Livro-removido-${timestamp}`);\n  }\n});",
+              "err": {},
+              "uuid": "f31fd3a7-f285-4da6-a098-93b296e3ca6c",
+              "parentUUID": "3cad8e5f-cdba-43cb-8791-902ee443aa49",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f31fd3a7-f285-4da6-a098-93b296e3ca6c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 284,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [
+        "dcb1beeb-838f-4ef5-bc91-10c424f687d8"
+      ],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 452,
+      "root": true,
+      "rootEmpty": false,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "Resultado teste",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": true,
+        "html": true,
+        "json": true,
+        "reportFilename": "Resultado teste"
+      },
+      "version": "6.2.0"
+    }
+  }
+}

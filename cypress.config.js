@@ -13,10 +13,10 @@ module.exports = defineConfig({
   reporter: 'mochawesome',
   reporterOptions: {
     reportDir: 'cypress/reports', // Diretório para salvar os relatórios
-    overwrite: false,             // Não sobrescreve relatórios existentes
+    overwrite: true,             // Não sobrescreve relatórios existentes
     html: true,                   // Gera relatórios em HTML
     json: true,                   // Gera relatórios em JSON
-    charts: true,
+    reportFilename: 'Resultado teste'
   },
 
   e2e: {
@@ -24,6 +24,7 @@ module.exports = defineConfig({
       // implement node event listeners here
       configurePlugin(on);
     },
-    baseUrl: 'http://localhost:5000/api/livros'
+    baseUrl: 'http://localhost:5000/api/livros',
+    screenshotOnRunFailure: true
   },
 });

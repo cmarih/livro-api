@@ -45,9 +45,9 @@ Cypress.Commands.add('getlivros', () => {
     })
 })
 
-Cypress.Commands.add('getlivrosId', (id) => {
+Cypress.Commands.add('getlivrosId', (_id) => {
     cy.api({
-        url: `http://localhost:5000/api/livros/${id}`,
+        url: `http://localhost:5000/api/livros/${_id}`,
         method: 'GET',
         failOnStatusCode: false
     }).then(response => {

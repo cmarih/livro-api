@@ -82,44 +82,46 @@ npm install
  ```bash
 npm start
 ```
-# Implementando o projeto 📚
-Para implementar o projeto, foi mapeado possíveis cenários de testes para serem automatizados.
+## Implementando o projeto 📚
+Para implementar o projeto, foi mapeado possíveis cenários de testes para serem automatizados. Para captura das evidências dos testes, usamos a biblioteca **mochawesome** junto com o **cy.screenshot** para capturar tela.
 
-## **Cenário 1: Cadastro de livro com todos os campos válidos**
-- ### Resultado:
-  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/cadastrar-livro.png" alt="Print teste cadastrar novo livro">
+### **Cenário: Cadastro de livro com todos os campos válidos**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 201 quando o cadastro for bem-sucedido. 
+- Todos os campos obrigatórios devem estar presentes e válidos. 
+- O livro deve ser salvo no banco de dados. 
 
-## **Cenário 2: Tentativa de cadastro com campos ausentes - Teste Negativo**
-- ### Resultado:
-  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/campo-obrigatorio.png" alt="Print teste cadastrar sem campo obrigatorio">
+### **Cenário: Tentativa de cadastro com campos duplicados - Teste Negativo**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 409 quando o título do livro constar na base. 
+- Deve exibir uma mensagem de erro clara informando que o livro já está cadastrado. 
 
-## **Cenário 3: Tentativa de cadastro com campos duplicados - Teste Negativo**
-- ### Resultado:
-  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/livro-duplicado.png" alt="Print teste cadastrar livro existente na base">
+### **Cenário: Tentativa de cadastro com campos ausentes - Teste Negativo**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 400 quando houver campos obrigatórios ausentes. 
+- Deve exibir uma mensagem de erro clara informando que todos os campos são obrigatórios. 
 
-## **Cenário 4: Listar todos os livros cadastrados**
-- ### Resultado:
-  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/todos-livros.png" alt="Print teste consulta lista de livros cadastrados">
 
-## **Cenário 5: Consultar um livro existente pelo ID**
-- ### Resultado:
-  <img src="https://github.com/cmarih/livro-api/blob/master/testes-evidencias/livro_id.png" alt="Print teste consulta por Id do livro">
+### **Cenário: Listar todos os livros cadastrados**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 200 para a listagem bem-sucedida. 
+- Deve retornar uma lista com os detalhes de todos os livros cadastrados. 
+- Deve retornar uma lista 'vazia' caso não possua nenhum cadastro na base.
 
-## **Cenário 6: Remover um livro existente pelo ID**
-- ### Resultado:
-sem-livro-cadastrado.png
+### **Cenário: Consultar um livro existente pelo ID**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 200 para uma consulta bem-sucedida. 
+- Deve retornar os detalhes do livro correspondente ao ID informado. 
+- Deve retornar uma mensagem indicando, caso o ID não seja encontrado.
 
-REMOVER PRINTS DE TELA E TRABALHAR EM CIMA DE RELATÓRIOS GERADOS PELO CYPRESS, COMO EVIDENCIA DE TESTE
-- Implementar:
-Cenário de exclusão de livros
-gerar a massa de dados de forma automática
-POSSIBILIDADE DE UTILIZAÇÃO DO METODO PUT/ATUALIZAÇÃO NA API
+### **Cenário: Remover um livro existente pelo ID**
+#### Critérios de Aceitação: 
+- O sistema deve retornar o status 200 para a remoção bem-sucedida. 
+- Deve retornar uma mensagem indicando que o livro foi removido com sucesso. 
+- Deve retornar uma mensagem indicando, caso o livro não seja encontrado.
+
+### ** [Relatório de teste:]()**
+
+gerar a massa de dados de forma automática - Verificar
 
 *Projeto feito assistindo as aulas do canal QA Papito:  [QA Papito Aula 1](https://www.youtube.com/watch?v=FI65wNBKQkE&ab_channel=QAPapito) & [QA Papito Aula 2](https://www.youtube.com/watch?v=JyDQTO-DXMQ&ab_channel=QAPapito)*
-
-- Adicionado teste de exclusão de livros, realizando uma vlaidação na base antes de exluir
-- implementado a opção de validar de há registro na base de dados, e informar caso ela esteja vazia.
-- Para o teste de cadastro, asntes de cadastrar é feito uma validação se o livro já não consta na base de dados e  assim evitar duplicidade de registros, assim como, é validado caso falte algum campo obrigatorio.
-
-- Implementando os relatorios com evidencias de teste, gerado pelo proprio Cypress (biblioteca mochawesome): 
-npm install mochawesome mochawesome-merge mochawesome-report-generator --save-dev

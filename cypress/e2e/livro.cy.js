@@ -1,15 +1,16 @@
 describe('/livros POST', () => {
-
+  
   it('Cadastrar Novo Livro', () => {
 
     const livro = {
-      "titulo": "Nánia",
-      "autor": "Paulo Coelho",
-      "editora": "HarperOne",
-      "anoPublicacao": 1988,
-      "numeroPaginas": 208
+      "titulo": "Lara Cross",
+      "autor": "Paulo Co233elho",
+      "editora": "Harper23423One",
+      "anoPublicacao": 3488,
+      "numeroPaginas": 238
     };
 
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp
 
     cy.getlivros().then((response) => {
 
@@ -27,42 +28,43 @@ describe('/livros POST', () => {
             expect(response.body._id).to.not.be.empty
           })
 
-          cy.screenshot('Cadastrar-novo-livro')
-          
+        cy.screenshot(`Cadastro/Cadastrar-novo-livro-${timestamp}+1`)
+
       } else {
         //Verificar se o livro já consta na base
         const livroEncontrado = response.body.find(
           (livroExistente) => livroExistente.titulo.toLowerCase() === livro.titulo.toLowerCase()
         )
 
-        if (livroEncontrado){
+        if (livroEncontrado) {
           //Se o livro tiver cadastro, informa mensagem de duplicidade
           cy.postLivro(livro).then((response) => {
             expect(response.status).to.eql(409)
             expect(response.body.erro).to.eql('Titulo do livro já consta cadastro em  nossa base!')
           })
-          cy.screenshot('Livro-duplicado')
+          cy.screenshot(`Cadastro/Livro-duplicado-${timestamp}`)
+
         } else {
           //cadastrar livro
-        cy.postLivro(livro)
-        .then(response => {
-          expect(response.status).to.eql(201)
-          expect(response.body.titulo).to.eql(livro.titulo)
-          expect(response.body.autor).to.eql(livro.autor)
-          expect(response.body.editora).to.eql(livro.editora)
-          expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao)
-          expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
-          expect(response.body._id).to.not.be.empty
-        })
+          cy.postLivro(livro)
+            .then(response => {
+              expect(response.status).to.eql(201)
+              expect(response.body.titulo).to.eql(livro.titulo)
+              expect(response.body.autor).to.eql(livro.autor)
+              expect(response.body.editora).to.eql(livro.editora)
+              expect(response.body.anoPublicacao).to.eql(livro.anoPublicacao)
+              expect(response.body.numeroPaginas).to.eql(livro.numeroPaginas)
+              expect(response.body._id).to.not.be.empty
+            })
 
-        cy.screenshot('Cadastrar-novo-livro')
+          cy.screenshot(`Cadastro/Cadastrar-novo-livro-${timestamp}`)
         }
       }
-      
-    })
-      
 
-          
+    })
+
+
+
   })
 })
 
@@ -72,17 +74,21 @@ it('Não permitir cadastrar livro com campos ausentes', () => {
     "titulo": "O Alquimista"
   };
 
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp
+
   cy.postLivro(livro)
     .then(response => {
       expect(response.status).to.eql(400)
       expect(response.body.erro).to.eql('Todos os campos são obrigatórios')
     })
 
-    cy.screenshot('Campos-obrigatorios-ausentes')
+  cy.screenshot(`Cadastro/Campos-obrigatorios-ausentes-${timestamp}`)
 })
 
 describe('/livros GET', () => {
   it('deve listar todos os livros cadastrados', () => {
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp
 
     cy.getlivros()
       .then(response => {
@@ -95,7 +101,7 @@ describe('/livros GET', () => {
           cy.log(`Livro ${index + 1}: ${JSON.stringify(livro)}`);
         })
 
-        cy.screenshot('Listar-livros-cadastrados')
+        cy.screenshot(`consulta/Listar-livros-cadastrados-${timestamp}`)
       })
   })
 })
@@ -104,28 +110,30 @@ describe('/livrosId GET', () => {
 
   it('Deve retornar os detalhes de um determinado livro pelo ID', () => {
 
-    const livroId = '6792f922d2f1d494e4dc7c5e';
+    const livroId = "6793b23e6ef3608664c203cb";
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp
 
     cy.getlivrosId(livroId).then(response => {
       // Verifica se o status é 404
-      if (response.status === 404) {
+      if (response.status === 404 || response.body.length === 0) {
         cy.log('Não há livros cadastrados na base.');
 
-        cy.screenshot('Livro-sem-cadastro')
+        cy.screenshot(`Consulta/Livro-sem-cadastro-${timestamp}`)
 
-        return; // Interrompe o teste
+        //return; // Interrompe o teste
+      } else {
+        expect(response.status).to.eql(200) // Valida que o status da resposta é 200
+        expect(response.body).to.be.an('object') // Verifica se o corpo da resposta é um objeto
+
+
+        expect(response.body._id).to.eql(livroId) // Valida se o ID do livro está correto
+
+        // Exibindo os livros no console do Cypress
+        cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`)
+
+        cy.screenshot(`Consulta/Livro-busca-id-${timestamp}`)
       }
-
-      expect(response.status).to.eql(200) // Valida que o status da resposta é 200
-      expect(response.body).to.be.an('object') // Verifica se o corpo da resposta é um objeto
-
-
-      expect(response.body._id).to.eql(livroId) // Valida se o ID do livro está correto
-
-      // Exibindo os livros no console do Cypress
-      cy.log(`Livro encontrado: ${JSON.stringify(response.body, null, 2)}`)
-
-      cy.screenshot('Livro-busca-id')
 
     })
   })
@@ -134,23 +142,25 @@ describe('/livrosId GET', () => {
 
 describe('/deletelivroId DELETE', () => {
 
-  
+
   it('Deve remover um livro especifico selecionado pelo titulo', () => {
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Formata o timestamp
 
     cy.getlivros().then((response) => { // Validar se existem livros na base
       expect(response.status).to.eq(200); // Verifica se a resposta foi bem-sucedida
 
-      const livroTitulo = "Nánia" //Informa o titulo do livro
+      const livroTitulo = "Lara Cross" //Informa o titulo do livro
 
       // Verificar se existe livros na base
       if (response.body.length === 0) {
         cy.log('Não há registros de livros cadastrados na base.');
 
-        cy.screenshot('Sem-livro-cadastrado')
+        cy.screenshot(`Exclusão/Sem-livro-cadastrado-${timestamp}`)
 
         return;
       }
-      
+
       // Filtrar o livro desejado pelo título
       const livroEncontrado = response.body.find(
         (livro) => livro.titulo?.toLowerCase().trim().includes(livroTitulo.toLowerCase().trim())
@@ -161,16 +171,16 @@ describe('/deletelivroId DELETE', () => {
 
         cy.log(`Livro "${livroTitulo}" não encontrado`)
 
-        cy.screenshot('Titulo-livro-nao-encontrado')
+        cy.screenshot(`Exclusão/Titulo-livro-nao-encontrado-${timestamp}`)
 
-      }  else {
-        
-      cy.deletelivroId(livroEncontrado._id).then((res) => { // excluir o livro
-        // Validações da exclusão
-        expect(res.status).to.eq(200);
-        expect(res.body.message).to.eq('Livro removido com sucesso');
-      })
-        cy.screenshot('Livro-removido')
+      } else {
+
+        cy.deletelivroId(livroEncontrado._id).then((res) => { // excluir o livro
+          // Validações da exclusão
+          expect(res.status).to.eq(200);
+          expect(res.body.message).to.eq('Livro removido com sucesso');
+        })
+        cy.screenshot(`Exclusão/Livro-removido-${timestamp}`)
       }
 
     })

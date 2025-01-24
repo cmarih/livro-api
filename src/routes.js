@@ -50,7 +50,7 @@ router.get('/livros/:id', async (req, res) => {
     try {
         const livro = await Livro.findById(req.params.id);
 
-        if (!livro) {
+        if (!livro || livro.length === 0) {
             return res.status(404).json({ error: 'Livro não encontrado' });
         }
 
